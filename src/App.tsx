@@ -1,18 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import {BrowserRouter as Routes, Link, Route, Router} from "react-router-dom";
+
+import {BrowserRouter as Router,Routes, Link, Route} from "react-router-dom";
 import './App.css'
 import Home from "./components/Home";
 import Customer from "./components/Customer";
 import Product from "./components/Product";
 
-
-
-
 function App() {
-
-
   return (
     <Router>
       <div>
@@ -38,6 +31,7 @@ function App() {
         </Routes>
 
       </div>
+
     </Router>
 
   )
