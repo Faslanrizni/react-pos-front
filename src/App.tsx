@@ -1,28 +1,40 @@
 
 import {BrowserRouter as Router,Routes, Link, Route} from "react-router-dom";
 import './App.css'
-import Home from "./components/Home";
-import Customer from "./components/Customer";
-import Product from "./components/Product";
+import Home from "./components/Home.tsx";
+import Customer from "./components/Customer.tsx";
+import Product from "./components/Product.tsx";
 
 function App() {
   return (
     <Router>
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to={'/'}>Home</Link>
-            </li>
-            <li>
-              <Link to={'/customer'}>Customer</Link>
-            </li>
-            <li>
-              <Link to={'/product'}>Product</Link>
-            </li>
-          </ul>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="#">Navbar</a>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNav">
+              <ul className="navbar-nav">
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">Features</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">Pricing</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </nav>
-        <hr/>
+
 
         <Routes>
           <Route path={'/'} element={<Home/>} />
