@@ -1,4 +1,13 @@
-function Customer() {
+import React from "react";
+
+interface Customer{
+    id:string,
+    name:string,
+    address:string,
+    salary:number
+}
+const Customer:React.FC=()=> {
+
     return(
         <>
             <br/>
