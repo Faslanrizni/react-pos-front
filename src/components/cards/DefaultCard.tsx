@@ -2,8 +2,9 @@ import React from "react";
 interface DefaultCardData{
     thumbnail:String,
     title:String,
-    value:number,
-    description:String
+    description:String,
+    value:number
+
 }
 function DefaultCard(props:DefaultCardData){
     const maxWidthStyle:React.CSSProperties={
