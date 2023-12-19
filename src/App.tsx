@@ -4,6 +4,7 @@ import './App.css'
 import Home from "./components/Home.tsx";
 import Customer from "./components/Customer.tsx";
 import Product from "./components/Product.tsx";
+import Order from "./components/Order";
 
 function App() {
   return (
@@ -22,16 +23,16 @@ function App() {
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <a className="nav-link active" aria-current="page" href="#">Home</a>
+                  <Link className="nav-link" to={'/'}>Home</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Features</a>
+                  <Link className="nav-link" to={'/customer'}>Customer</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Pricing</a>
+                  <Link className="nav-link" to={'/orders'}>Order Management</Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</a>
+                  <Link className="nav-link" to={'/product'} >Products</Link>
                 </li>
               </ul>
             </div>
@@ -43,6 +44,7 @@ function App() {
           <Route path={'/'} element={<Home/>} />
           <Route path={'/customer'} element={<Customer/>} />
           <Route path={'/product'} element={<Product/>} />
+          <Route path={'/orders'} element={<Order/>} />
         </Routes>
 
       </div>
