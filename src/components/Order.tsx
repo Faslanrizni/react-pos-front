@@ -10,6 +10,11 @@ function Order() {
         alignItems:"center",
         justifyContent:'space-between'
     }
+    const totalTextColor:React.CSSProperties={
+        color:'red',
+        margin:'0'
+
+    }
     return (
         <>
             <br/>
@@ -133,7 +138,7 @@ function Order() {
                         <br/>
 
                         <div className="bottom-context" style={bottomContextStyle}>
-                            <div className="total-outer">
+                            <div className="total-outer" style={totalTextColor}>
                                 <h1>Total: 2500</h1>
                             </div>
                             <div className="place-order">
