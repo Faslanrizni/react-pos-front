@@ -1,5 +1,6 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import Customer from "./Customer";
+import {storage} from "../config/firebase";
 
 interface Product{
     _id:string,
@@ -14,11 +15,29 @@ const Product:React.FC=()=> {
 
     const [products,setProducts] = useState<Product[]>([])
 
+    const [image,setImage]=useState<File | null>(null)
+
     const [name,setName] = useState('');
 
     const [description,setDescription]= useState('');
     const [unitPrice,setUnitPrice]= useState<number | ''>('');
     const [qthOnHand,setQthOnHand]= useState<number | ''>('');
+
+    const handleImage = (e:ChangeEvent<HTMLInputElement>)=>{
+    if (e.target.files && e.target.files[0]){
+        setImage(e.target.files)
+    }
+    }
+    const saveProduct=()=>{
+        /*if (image){
+            const storageRef = storage.ref('image/${Math.random()+'-'+image.name}');
+            storageRef.put(image).then(()={
+                storageRef.getDownloadURL().then((url)=>{
+                    console.log(url)
+                })
+            })
+        }*/
+    }
 
     const style:React.CSSProperties={
         marginBottom:'20px'
@@ -32,26 +51,26 @@ const Product:React.FC=()=> {
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="customerName">Product Name</label>
-                            <input type="text" onChange={(e)=>setName(e.target.name)} className={'form-control'} id={'productName'}/>
+                            <input type="text" onChange={(e)=>setName(e.target.value)} className={'form-control'} id={'productName'}/>
                         </div>
                     </div>
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="price">Unit price</label>
-                            <input type="text" onChange={(e)=>setUnitPrice(parseFloat(e.target.name))} className={'form-control'} id={'price'}/>
+                            <input type="text" onChange={(e)=>setUnitPrice(parseFloat(e.target.value))} className={'form-control'} id={'price'}/>
                         </div>
                     </div>
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="qty">QTY on hand</label>
-                            <input type="text" onChange={(e)=>setUnitPrice(parseFloat(e.target.name))} className={'form-control'} id={'qty'}/>
+                            <input type="text" onChange={(e)=>setUnitPrice(parseFloat(e.target.value))} className={'form-control'} id={'qty'}/>
                         </div>
 
                     </div>
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="qty">product image</label>
-                            <input type="file" className={'form-control'} id={'image'}/>
+                            <input onChange={handleImage} type="file" className={'form-control'} id={'image'}/>
                         </div>
 
                     </div>
@@ -66,7 +85,8 @@ const Product:React.FC=()=> {
                 <br/>
                 <div className="row">
                     <div className="col-12 ">
-                        <button className={'btn btn-primary col-12'}>Save Product</button>
+                        <button onClick={saveProduct} className={'btn btn-primary col-12'}>Save Product</button>
+
                     </div>
 
                 </div>
