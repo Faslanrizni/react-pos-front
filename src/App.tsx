@@ -39,7 +39,6 @@ function App() {
           </div>
         </nav>
 
-
         <Routes>
           <Route path={'/'} element={<Home/>} />
           <Route path={'/customer'} element={<Customer/>} />

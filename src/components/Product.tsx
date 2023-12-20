@@ -1,6 +1,25 @@
-import React from "react";
+import React, {useState} from "react";
+import Customer from "./Customer";
 
-function Product() {
+interface Product{
+    _id:string,
+    name:string,
+    description:string,
+    unitPrice:string,
+    salary:number,
+    qtyOnHand:number
+}
+
+const Product:React.FC=()=> {
+
+    const [products,setProducts] = useState<Product[]>([])
+
+    const [name,setName] = useState('');
+
+    const [description,setDescription]= useState('');
+    const [unitPrice,setUnitPrice]= useState<number | ''>('');
+    const [qthOnHand,setQthOnHand]= useState<number | ''>('');
+
     const style:React.CSSProperties={
         marginBottom:'20px'
     }
@@ -13,20 +32,19 @@ function Product() {
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="customerName">Product Name</label>
-                            <input type="text" className={'form-control'} id={'productName'}/>
+                            <input type="text" onChange={(e)=>setName(e.target.name)} className={'form-control'} id={'productName'}/>
                         </div>
                     </div>
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="price">Unit price</label>
-                            <input type="text" className={'form-control'} id={'price'}/>
+                            <input type="text" onChange={(e)=>setUnitPrice(parseFloat(e.target.name))} className={'form-control'} id={'price'}/>
                         </div>
-
                     </div>
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="qty">QTY on hand</label>
-                            <input type="text" className={'form-control'} id={'qty'}/>
+                            <input type="text" onChange={(e)=>setUnitPrice(parseFloat(e.target.name))} className={'form-control'} id={'qty'}/>
                         </div>
 
                     </div>
@@ -40,7 +58,7 @@ function Product() {
                     <div className="col-12 " style={style}>
                         <div className="form-group">
                             <label htmlFor="description">Description</label>
-                            <textarea rows={5} className={'form-control'} id={'description'}/>
+                            <textarea onChange={(e)=>setDescription(e.target.name)} rows={5} className={'form-control'} id={'description'}/>
                         </div>
 
                     </div>
