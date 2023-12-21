@@ -10,6 +10,7 @@ interface Product{
     unitPrice:string,
     salary:number,
     qtyOnHand:number
+    image:string
 }
 
 const Product:React.FC=()=> {
@@ -48,7 +49,7 @@ const Product:React.FC=()=> {
 
             setName('')
             setDescription('')
-           setQtyOnHand('')
+            setQtyOnHand('')
             setUnitPrice('')
 
 
@@ -79,7 +80,7 @@ const Product:React.FC=()=> {
         setProducts(response.data);
     }
     const deleteProducts=async(id)=>{
-        await axios.delete("http://localhost:3000/api/v1/products/delete-by-id"+id)
+        await axios.delete("http://localhost:3000/api/v1/products/delete-by-id/"+id)
         findAllProducts();
     }
 
@@ -119,7 +120,7 @@ const Product:React.FC=()=> {
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="qty">QTY on hand</label>
-                            <input value={qtyOnHand} type="text" onChange={(e)=>setUnitPrice(parseFloat(e.target.value))} className={'form-control'} id={'qty'}/>
+                            <input value={qtyOnHand} type="text" onChange={(e)=>setQtyOnHand(parseFloat(e.target.value))} className={'form-control'} id={'qty'}/>
                         </div>
 
                     </div>
@@ -133,7 +134,7 @@ const Product:React.FC=()=> {
                     <div className="col-12 " style={style}>
                         <div className="form-group">
                             <label htmlFor="description">Description</label>
-                            <textarea value={description} onChange={(e)=>setDescription(e.target.name)} rows={5} className={'form-control'} id={'description'}/>
+                            <textarea value={description} onChange={(e)=>setDescription(e.target.value)} rows={5} className={'form-control'} id={'description'}/>
                         </div>
 
                     </div>

@@ -1,6 +1,13 @@
 import React from "react";
 
-function MinQtyCard(){
+interface ProductProps {
+    image:string,
+    name:string,
+    description:string
+
+}
+
+function MinQtyCard(props:ProductProps){
     const style:React.CSSProperties={
         width:'100%',
         marginBottom:'10px'
@@ -8,11 +15,10 @@ function MinQtyCard(){
 
     return(
         <div className="card" style={style}>
-            <img src="..." className="card-img-top" alt="..."/>
+            <img src={props.image} className="card-img-top" alt="..."/>
                 <div className="card-body">
-                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of
-                        the card's content.</p>
-                    <a href="" className={'btn btn-primary'}>Go Somewhere</a>
+                    <h5 className={'card-title'}>{props.name}</h5>
+                    <p className="card-text">{props.description}</p>
                 </div>
         </div>
     )
