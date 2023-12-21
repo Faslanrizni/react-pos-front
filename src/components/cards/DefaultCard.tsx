@@ -3,7 +3,7 @@ interface DefaultCardData{
     thumbnail:String,
     title:String,
     description:String,
-    value:number
+    value:number | undefined
 
 }
 function DefaultCard(props:DefaultCardData){

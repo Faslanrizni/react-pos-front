@@ -7,13 +7,29 @@ import axios from "axios";
 
 const Home:React.FC=()=>{
     const [products,setProducts] = useState<Product[]>([])
+    const [productCount,setProductCount] = useState<number >()
+    const [orderCount,setOrderCount] = useState<number >()
+    const [customerCount,setCustomerCount] = useState<number >()
+    // const [productCount,setProductCount] = useState<number >()
 
     useEffect(()=>{
         findAllProducts();
+
+        findAllCount();
     },[])
     const findAllProducts= async ()=>{
         const response = await axios.get('http://localhost:3000/api/v1/products/find-all-min');
         setProducts(response.data);
+    }
+    const findAllCount= async ()=>{
+        const productCount = await axios.get('http://localhost:3000/api/v1/products/find-all-count');
+        setProductCount(productCount.data);
+
+        const orderCount = await axios.get('http://localhost:3000/api/v1/orders/find-count');
+        setOrderCount(orderCount.data);
+
+        const customerCount = await axios.get('http://localhost:3000/api/v1/customers/find-count');
+        setCustomerCount(customerCount.data);
     }
 
     return (
@@ -26,7 +42,7 @@ const Home:React.FC=()=>{
                             thumbnail={'https://img.freepik.com/free-photo/focused-business-group-studying-report_1262-21043.jpg?size=626&ext=jpg&ga=GA1.1.1313303609.1697107729&semt=sph' }
                             description={'Customer'}
                             title={'Customer'}
-                            value={2750}
+                            value={customerCount}
                             key={1}
                         />
                     </div>
@@ -35,7 +51,7 @@ const Home:React.FC=()=>{
                             thumbnail={'https://img.freepik.com/premium-photo/large-clean-warehouse-with-shelves-cardboard-boxes-products-generative-ai_1005220-1640.jpg?size=626&ext=jpg&ga=GA1.2.1313303609.1697107729&semt=sph'}
                             description={'Products'}
                             title={'Products'}
-                            value={2750}
+                            value={productCount}
                             key={2}
                         />
                     </div>
@@ -44,7 +60,7 @@ const Home:React.FC=()=>{
                             thumbnail={'https://img.freepik.com/free-photo/medium-shot-man-drinking-coffee_23-2148539831.jpg?size=626&ext=jpg&ga=GA1.1.1313303609.1697107729&semt=sph'}
                             description={'Orders'}
                             title={'Orders'}
-                            value={2750}
+                            value={orderCount}
                             key={3}
                         />
                     </div>
@@ -53,7 +69,7 @@ const Home:React.FC=()=>{
                             thumbnail={'https://img.freepik.com/free-photo/business-man-counting-dollar-banknote-online-business-concept_1150-6406.jpg?size=626&ext=jpg&ga=GA1.2.1313303609.1697107729&semt=sph'}
                             description={'income'}
                             title={'income'}
-                            value={2750}
+                            value={productCount}
                             key={4}
                         />
                     </div>
