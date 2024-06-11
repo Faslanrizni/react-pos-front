@@ -50,6 +50,7 @@ const Customer:React.FC = ()=>{
 
     const deleteCustomer= async (id: string)=>{
         await axios.delete('http://localhost:3000/api/v1/customers/delete-by-id/'+id);
+        findAllCustomers();
     }
 
     const loadModal= async (id: string)=>{
@@ -75,6 +76,7 @@ const Customer:React.FC = ()=>{
             setName('');
             setSalary('');
             setAddress('');
+            findAllCustomers()
 
         }catch (e){
             console.log(e)
@@ -204,7 +206,7 @@ const Customer:React.FC = ()=>{
                         >Update Customer</button>
                         <br/>
                         <br/>
-                        <button type='button' className='btn-secondary btn col-12' onClick={()=>setModalState(false)}>Close Modal</button>
+                        <button type='button' className='btn-secondary btn col-12' onClick={()=>setModalState(false)}>Close</button>
                     </div>
 
                 </div>

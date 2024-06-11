@@ -1,19 +1,21 @@
-import firebase from "firebase/app"
-import { initializeApp } from "firebase/app";
+import firebase from "firebase/compat/app"
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 
-import {getStorage} from "firebase/storage";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyAs4WfvMsTWuyN1_d786cXIaW_6AgRV6wE",
-    authDomain: "reactnew-9cf83.firebaseapp.com",
-    projectId: "reactnew-9cf83",
-    storageBucket: "reactnew-9cf83.appspot.com",
-    messagingSenderId: "227014763470",
-    appId: "1:227014763470:web:b3ecf8ce651adf7167419f",
-    measurementId: "G-B92LR3F9DL"
+    apiKey: "AIzaSyAvbb3FZU1pdW9OBFXDhBcj9A2aHIuIB8Y",
+    authDomain: "blog-page-b5a7b.firebaseapp.com",
+    projectId: "blog-page-b5a7b",
+    storageBucket: "blog-page-b5a7b.appspot.com",
+    messagingSenderId: "1005854589975",
+    appId: "1:1005854589975:web:accd13423dfdf4486bc852",
+    measurementId: "G-BFHTSNXW2F"
 };
 
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
-export {storage};
+if (!firebase.apps.length){
+    firebase.initializeApp(firebaseConfig)
+}
+export const storage = firebase.storage();
+export default firebase
