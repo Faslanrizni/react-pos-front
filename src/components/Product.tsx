@@ -3,6 +3,8 @@ import Customer from "./Customer";
 import {storage} from "../config/firebase";
 import axios from "axios";
 import {Modal} from "react-bootstrap";
+import PostDetailsModal from './model/ViewProductModel';
+import ViewProductModal from "./model/ViewProductModel";
 
 interface Product{
     _id:string,
@@ -32,12 +34,26 @@ const Product:React.FC=()=> {
     const [updateQtyOnHand,setUpdateQtyOnHand]= useState<number | ''>('');
     const [selectedProductId,setSelectedProductId]=useState('');
 
-    const handleImage = (e:ChangeEvent<HTMLInputElement>)=>{
-    if (e.target.files && e.target.files[0]){
-        setImage(e.target.files)
-    }
-    }
-    const saveProduct=async()=>{
+    const [selectedPost, setSelectedPost] = useState(null);
+
+    // const [detailsModalState, setDetailsModalState] = useState(false);
+
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [detailsModalState, setDetailsModalState] = useState(false);
+
+
+
+    const viewProduct = async (id: string) => {
+        const product = await axios.get('http://localhost:3000/api/v1/products/find-by-id/' + id);
+        setSelectedProduct(product.data);
+        setDetailsModalState(true);
+    };
+    const handleFile = async (event: ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            setImage(event.target.files[0]);
+        }
+    };
+    const saveProduct = async()=>{
         let imageUrl = '';
         if (image) {
             try {
@@ -59,6 +75,7 @@ const Product:React.FC=()=> {
             setDescription('')
             setQtyOnHand('')
             setUnitPrice('')
+            // setImage('')
 
 
             findAllProducts();
@@ -70,21 +87,9 @@ const Product:React.FC=()=> {
         findAllProducts();
     },[])
 
-/*    const updateProduct= async ()=>{
-        try{
 
-            await axios.put('http://localhost:3000/api/v1/customers/update/'+selectedCustomerId,{
-                name:updateName,address:updateAddress,salary:updateSalary
-            });
-            setModelState(false);
-
-
-        }catch (e){
-            console.log(e)
-        }
-    }*/
     const updateProduct= async ()=>{
-        let imageUrl = '';
+        let imageUrl = updateImage || '';
         if (image) {
             try {
                 const storageRef = storage.ref();
@@ -116,17 +121,7 @@ const Product:React.FC=()=> {
         findAllProducts();
     }
 
-/*    const  loadModel=async (id) => {
-        const customer =  await axios.get("http://localhost:3000/api/v1/customers/find-by-id"+id)
-        console.log(customer.data);
-        setSelectedCustomerId(customer.data._id)
-        setUpdateName(customer.data.name)
-        setUpdateAddress(customer.data.address)
-        setUpdateSalary(parseFloat(customer.data.salary))
 
-        setModelState(true);
-
-    }*/
 
     const loadModal= async (id: string)=>{
         const product = await axios.get('http://localhost:3000/api/v1/products/find-by-id/'+id);
@@ -136,7 +131,7 @@ const Product:React.FC=()=> {
         setUpdateUnitPrice(parseFloat(product.data.unitPrice))
         setUpdateQtyOnHand(product.data.qtyOnHand)
         setUpdateSetDescription(product.data.description)
-        setUpdateImage(null);
+        setUpdateImage(product.data.image);
 
 
 
@@ -174,7 +169,7 @@ const Product:React.FC=()=> {
                     <div className="col-12 col-sm-6 col-md-4" style={style}>
                         <div className="form-group">
                             <label htmlFor="qty">product image</label>
-                            <input  onChange={handleImage} type="file" className={'form-control'} id={'image'}/>
+                            <input  onChange={handleFile} type="file" className={'form-control'} id={'image'}/>
                         </div>
 
                     </div>
@@ -238,7 +233,9 @@ const Product:React.FC=()=> {
                                     >Update</button>
                                 </td>
                                 <td>
-                                    <button className={'btn btn-outline-info bnt-sm'}>View</button>
+                                    <button className={'btn btn-outline-info btn-sm'}
+                                            onClick={() => viewProduct(product._id)}
+                                    >View</button>
                                 </td>
                             </tr>
                                 )}
@@ -288,8 +285,6 @@ const Product:React.FC=()=> {
                         <br/>
                     </div>
 
-
-
                     <div className="col-12">
                         <button type='button' className='btn-success btn col-12'
                                 onClick={()=>updateProduct()}
@@ -302,6 +297,11 @@ const Product:React.FC=()=> {
                 </div>
 
             </Modal>
+            <ViewProductModal
+                show={detailsModalState}
+                handleClose={() => setDetailsModalState(false)}
+                product={selectedProduct}
+            />
         </>
     )
 }
