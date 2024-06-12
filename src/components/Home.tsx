@@ -13,11 +13,11 @@ const Home:React.FC=()=>{
     // const [productCount,setProductCount] = useState<number >()
 
     useEffect(()=>{
-        findAllProducts();
+        findAllMinProducts();
 
         findAllCount();
     },[])
-    const findAllProducts= async ()=>{
+    const findAllMinProducts= async ()=>{
         const response = await axios.get('http://localhost:3000/api/v1/products/find-all-min');
         setProducts(response.data);
     }
@@ -27,6 +27,7 @@ const Home:React.FC=()=>{
 
         const orderCount = await axios.get('http://localhost:3000/api/v1/orders/find-count');
         setOrderCount(orderCount.data);
+
 
         const customerCount = await axios.get('http://localhost:3000/api/v1/customers/find-count');
         setCustomerCount(customerCount.data);
@@ -88,9 +89,6 @@ const Home:React.FC=()=>{
                             <MinQtyCard name={prod.name} image={prod.image} description={prod.description}  key={index}/>
                         ))}
 
-
-                            <MinQtyCard/>
-                            <MinQtyCard/>
                     </div>
                 </div>
 
