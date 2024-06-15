@@ -11,11 +11,13 @@ interface Customer{
 
 const Customer:React.FC = ()=>{
 
+
     const [customers, setCustomers]=useState<Customer[]>([])
 
     const [modalState, setModalState]=useState<boolean>(false);
 
     const [name,setName]=useState('');
+
     const [address,setAddress]=useState('');
     const [salary,setSalary]=useState<number | ''>('');
 
@@ -30,7 +32,6 @@ const Customer:React.FC = ()=>{
 
     const updateCustomer= async ()=>{
         try{
-
             await axios.put('http://localhost:3000/api/v1/customers/update/'+selectedCustomerId,{
                 name:updateName,address:updateAddress,salary:updateSalary
             });
@@ -53,7 +54,7 @@ const Customer:React.FC = ()=>{
         findAllCustomers();
     }
 
-    const loadModal= async (id: string)=>{
+    const loadModal = async (id: string)=>{
         const customer = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
         console.log(customer.data)
         setSelectedCustomerId(customer.data._id)
@@ -65,7 +66,7 @@ const Customer:React.FC = ()=>{
     }
 
     const saveCustomer= async ()=>{
-
+        console.log(name)
         try{
 
             const response = await axios.post('http://localhost:3000/api/v1/customers/create',{
@@ -105,7 +106,7 @@ const Customer:React.FC = ()=>{
                     <div className="col-12 col-sm-6 col-md-4">
                         <div className="form-group">
                             <label htmlFor="customerSalary">Salary</label>
-                            <input value={salary} onChange={(e)=>{setSalary(e.target.value==''?'':parseFloat(e.target.value))}} type="number" className='form-control' id='customerSalary'/>
+                            <input value={salary} onChange={(e)=>{setSalary(e.target.value == ''?'':parseFloat(e.target.value))}} type="number" className='form-control' id='customerSalary'/>
                         </div>
                     </div>
                 </div>

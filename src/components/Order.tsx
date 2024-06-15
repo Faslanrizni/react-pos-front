@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
+import Customer from "./Customer";
+import axios from 'axios';
+import customer from "./Customer";
 
-function Order() {
+const Order : React.FC=()=>{
     const style:React.CSSProperties={
         marginBottom:'20px'
     }
@@ -15,6 +18,20 @@ function Order() {
         margin:'0'
 
     }
+
+    const [customers, setCustomers]=useState<Customer[]>([])
+    useEffect(()=>{
+        findAllCustomers()
+    })
+
+    const findAllCustomers= async ()=>{
+        const response = await axios.get('http://localhost:3000/api/v1/customers/find-all?searchText=&page=1&size=10');
+        setCustomers(response.data);
+        console.log(response.data)
+
+    }
+
+
     return (
         <>
             <br/>
@@ -24,10 +41,14 @@ function Order() {
                     <div className="col-12 col-sm-6 col-md-3" style={style}>
                         <div className="form-group">
                             <label htmlFor="customerName">select Customer</label>
-                            <select  id="customer" className={'form-control'}>
-                                <option value="choose" disabled  defaultValue={'choose'}>choose</option>
-                                <option value="#">Customer 2</option>
-                                <option value="#">Customer 3</option>
+                            <select  id="customer" className={'form-control'} onChange={(e)=>{
+                                console.log(e)
+                            }}>
+                                {customers.map((customer,index)=>(
+                                    <option key={index} value={customer._id}>{customer.name}</option>
+                                    ))}
+
+
                             </select>
                         </div>
                     </div>

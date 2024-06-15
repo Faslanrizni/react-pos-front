@@ -31,6 +31,9 @@ const Home:React.FC=()=>{
 
         const customerCount = await axios.get('http://localhost:3000/api/v1/customers/find-count');
         setCustomerCount(customerCount.data);
+
+        const income = await axios.get('http://localhost:3000/api/v1/orders/find-income');
+        console.log(income)
     }
 
     return (
