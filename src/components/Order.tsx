@@ -6,6 +6,14 @@ import Product from "./Product";
 // import firebase from "firebase/compat";
 // import Value = firebase.remoteConfig.Value;
 
+interface Cart{
+    _id:string | undefined,
+    description:string | undefined,
+    unitPrice:number | " ",
+    qty:number | undefined,
+    total:number | undefined
+}
+
 const Order : React.FC=()=>{
     const style:React.CSSProperties={
         marginBottom:'20px'
@@ -30,13 +38,18 @@ const Order : React.FC=()=>{
     const [salary,setSalary]=useState<number | ''>('');
 
     const [products,setProducts] = useState<Product[]>([])
+    const [cart,setCart] = useState<Cart[]>([])
 
 
     const [name,setName] = useState('');
+    const [userQty,setUserQty] = useState<number>(0);
 
     const [description,setDescription]= useState('');
     const [unitPrice,setUnitPrice]= useState<number | ''>('');
     const [qtyOnHand,setQtyOnHand]= useState<number | ''>('');
+
+    const [selectedCustomer,setSelectedCustomer]= useState<Customer | null>(null)
+    const [selectedProduct,setselectedProduct]= useState<Product | null>(null)
 
 
     useEffect(()=>{
@@ -52,13 +65,13 @@ const Order : React.FC=()=>{
     const findAllCustomers= async ()=>{
         const response = await axios.get('http://localhost:3000/api/v1/customers/find-all?searchText=&page=1&size=10');
         setCustomers(response.data);
-        console.log(response.data)
+        // console.log(response.data)
 
     }
     const getCustomerById = async (id: string)=>{
         const customer = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
         console.log(customer.data)
-        // setName(customer.data.name)
+        setSelectedCustomer(customer);
         setAddress(customer.data.address)
         setSalary(parseFloat(customer.data.salary))
     }
@@ -67,11 +80,17 @@ const Order : React.FC=()=>{
     const getProductById = async (id: string)=>{
         const product = await axios.get('http://localhost:3000/api/v1/products/find-by-id/'+id);
         console.log(product.data)
+        setselectedProduct(product)
         setName(product.data.name)
         setDescription(product.data.description)
         setQtyOnHand(product.data.qtyOnHand)
         setUnitPrice(product.data.unitPrice)
         // setSalary(parseFloat(customer.data.salary))
+    }
+
+
+    const addTOCart= async (newItem:Cart)=>{
+        setCart((prevState)=>[...prevState,newItem]);
     }
 
     return (
@@ -152,7 +171,7 @@ const Order : React.FC=()=>{
                     <div className="col-12 col-sm-6 col-md-2" style={style}>
                         <div className="form-group">
                             <label htmlFor="qty">QTY</label>
-                            <input type="number" className={'form-control'} id={'qty'}/>
+                            <input onChange={(e)=>{setUserQty(parseFloat(e.target.value))}} type="number" className={'form-control'} id={'qty'}/>
                         </div>
 
                     </div>
@@ -162,7 +181,17 @@ const Order : React.FC=()=>{
 
                 <div className="row">
                     <div className="col-12 ">
-                        <button className={'btn btn-primary col-12'}>Add Product</button>
+                        <button className='btn btn-primary col-12' onClick={()=>{
+                            const cartProduct:Cart= {
+                                _id:selectedProduct._id,
+                                description:description,
+                                unitPrice:unitPrice,
+                                qty:userQty,
+                                total:(userQty*(unitPrice?unitPrice:0))
+                            }
+                            addTOCart(cartProduct);
+                        }}>Add Product</button>
+
                     </div>
                 </div>
                 <hr/>
@@ -182,17 +211,20 @@ const Order : React.FC=()=>{
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>#1001</td>
-                                <td>Nimal silva</td>
-                                <td>258</td>
-                                <td>100</td>
-                                <td>25000</td>
-                                <td>
-                                    <button className={'btn btn-outline-danger bnt-sm'}>Remove</button>
-                                </td>
+                            {cart.map((data,index)=>(
+                                <tr key={index}>
+                                    <td>{data._id}</td>
+                                    <td>{data.description}</td>
+                                    <td>{data.unitPrice}</td>
+                                    <td>{data.qty}</td>
+                                    <td>{data.total}</td>
+                                    <td>
+                                        <button className={'btn btn-outline-danger bnt-sm'}>Remove</button>
+                                    </td>
 
-                            </tr>
+                                </tr>
+                            ))}
+
 
                             </tbody>
 
