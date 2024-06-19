@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
 import Customer from "./Customer";
 import axios from 'axios';
-import customer from "./Customer";
+// import customer from "./Customer";
+// import firebase from "firebase/compat";
+// import Value = firebase.remoteConfig.Value;
 
 const Order : React.FC=()=>{
     const style:React.CSSProperties={
@@ -20,6 +22,13 @@ const Order : React.FC=()=>{
     }
 
     const [customers, setCustomers]=useState<Customer[]>([])
+
+    // const [name,setName]=useState('');
+
+    const [address,setAddress]=useState('');
+    const [salary,setSalary]=useState<number | ''>('');
+
+
     useEffect(()=>{
         findAllCustomers()
     })
@@ -29,6 +38,13 @@ const Order : React.FC=()=>{
         setCustomers(response.data);
         console.log(response.data)
 
+    }
+    const getCustomerById = async (id: string)=>{
+        const customer = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
+        console.log(customer.data)
+        // setName(customer.data.name)
+        setAddress(customer.data.address)
+        setSalary(parseFloat(customer.data.salary))
     }
 
 
@@ -42,7 +58,7 @@ const Order : React.FC=()=>{
                         <div className="form-group">
                             <label htmlFor="customerName">select Customer</label>
                             <select  id="customer" className={'form-control'} onChange={(e)=>{
-                                console.log(e)
+                                getCustomerById(e.target.value)
                             }}>
                                 {customers.map((customer,index)=>(
                                     <option key={index} value={customer._id}>{customer.name}</option>
@@ -52,24 +68,18 @@ const Order : React.FC=()=>{
                             </select>
                         </div>
                     </div>
-                    <div className="col-12 col-sm-6 col-md-3" style={style}>
-                        <div className="form-group">
-                            <label htmlFor="name">Customer Name</label>
-                            <input type="text" disabled className={'form-control'} id={'name'}/>
-                        </div>
 
-                    </div>
                     <div className="col-12 col-sm-6 col-md-3" style={style}>
                         <div className="form-group">
                             <label htmlFor="address">Customer Address</label>
-                            <input type="text" disabled className={'form-control'} id={'address'}/>
+                            <input value={address} type="text" className={'form-control'} id={'address'}/>
                         </div>
 
                     </div>
                     <div className="col-12 col-sm-6 col-md-3" style={style}>
                         <div className="form-group">
                             <label htmlFor="address">Salary</label>
-                            <input type="number" disabled className={'form-control'} id={'salary'}/>
+                            <input value={salary} type="number" className={'form-control'} id={'salary'}/>
                         </div>
                     </div>
                 </div>
