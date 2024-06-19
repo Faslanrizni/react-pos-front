@@ -51,11 +51,24 @@ const Order : React.FC=()=>{
     const [selectedCustomer,setSelectedCustomer]= useState<Customer | null>(null)
     const [selectedProduct,setselectedProduct]= useState<Product | null>(null)
 
+    const [netTotal,setNetTotal] = useState<number>(0)
+
 
     useEffect(()=>{
         findAllCustomers()
         findAllProducts();
     })
+
+    const setTotal = ()=>{
+        let amount = 0
+
+        setNetTotal(0)
+        /*cart.map((data)=>{
+            amount+=data.total;
+            setNetTotal(amount);
+
+        })*/
+    }
 
     const findAllProducts= async ()=>{
         const response = await axios.get('http://localhost:3000/api/v1/products/find-all?searchText=&page=1&size=10');
@@ -70,7 +83,6 @@ const Order : React.FC=()=>{
     }
     const getCustomerById = async (id: string)=>{
         const customer = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
-        console.log(customer.data)
         setSelectedCustomer(customer.data);
         setAddress(customer.data.address)
         setSalary(parseFloat(customer.data.salary))
@@ -91,6 +103,7 @@ const Order : React.FC=()=>{
 
     const addTOCart= async (newItem:Cart)=>{
         setCart((prevState)=>[...prevState,newItem]);
+        setTotal()
     }
 
     return (
@@ -142,16 +155,14 @@ const Order : React.FC=()=>{
                                 {products.map((product,index)=>(
                                     <option key={index} value={product._id}>{product.name}</option>
                                 ))}
-
-
                             </select>
                         </div>
                     </div>
                     <div className="col-12 col-sm-6 col-md-3" style={style}>
                         <div className="form-group">
+                            <label htmlFor="price">Description</label>
                            <input value={description} type="text" disabled className={'form-control'} id={'description'}/>
                         </div>
-
                     </div>
                     <div className="col-12 col-sm-6 col-md-2" style={style}>
                         <div className="form-group">
@@ -188,6 +199,7 @@ const Order : React.FC=()=>{
                                 total:(userQty*(unitPrice?unitPrice:0))
                             }
                             addTOCart(cartProduct);
+
                         }}>Add Product</button>
 
                     </div>
@@ -212,7 +224,6 @@ const Order : React.FC=()=>{
                             {cart.map((data,index)=>(
                                 <tr key={index}>
                                     <td>#{data._id}</td>
-
                                     <td>{data.description}</td>
                                     <td>{data.unitPrice}</td>
                                     <td>{data.qty}</td>
@@ -222,8 +233,10 @@ const Order : React.FC=()=>{
                                         <button
                                             onClick={(e)=>{
                                                 setCart((prevState)=>prevState.filter((cartData)=>cartData._id!=data._id))
+                                                 setTotal()
                                             }}
                                             className={'btn btn-outline-danger bnt-sm'}>Remove</button>
+
                                     </td>
 
                                 </tr>
@@ -238,13 +251,22 @@ const Order : React.FC=()=>{
 
                         <div className="bottom-context" style={bottomContextStyle}>
                             <div className="total-outer" style={totalTextColor}>
-                                <h1>Total: 2500</h1>
+                                <h1>Total: {netTotal}</h1>
                             </div>
                             <div className="place-order">
 
-                                <button
+                                <button className={'btn btn-primary'} onClick={async ()=>{
+                                     await axios.post('http://localhost:3000/api/v1/orders/create/',{
+                                        date:new Date(),
+                                        customerDetails:selectedCustomer,
+                                        totalCost:180,
+                                        products:cart
+                                    });
+                                    /*setSelectedCustomer(customer.data);
+                                    setAddress(customer.data.address)
+                                    setSalary(parseFloat(customer.data.salary))*/
 
-                                    className={'btn btn-primary'}>Place order</button>
+                                    }}>Place order</button>
                             </div>
 
                         </div>
