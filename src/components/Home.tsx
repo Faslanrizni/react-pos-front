@@ -11,6 +11,7 @@ const Home:React.FC=()=>{
     const [orderCount,setOrderCount] = useState<number >()
     const [customerCount,setCustomerCount] = useState<number >()
     // const [productCount,setProductCount] = useState<number >()
+    const[income,setIncome]=useState<number>();
 
     useEffect(()=>{
         findAllMinProducts();
@@ -33,7 +34,7 @@ const Home:React.FC=()=>{
         setCustomerCount(customerCount.data);
 
         const income = await axios.get('http://localhost:3000/api/v1/orders/find-income');
-        console.log(income)
+        setIncome(income.data.totalCostSum)
     }
 
     return (
@@ -73,7 +74,7 @@ const Home:React.FC=()=>{
                             thumbnail={'https://img.freepik.com/free-photo/business-man-counting-dollar-banknote-online-business-concept_1150-6406.jpg?size=626&ext=jpg&ga=GA1.2.1313303609.1697107729&semt=sph'}
                             description={'income'}
                             title={'income'}
-                            value={productCount}
+                            value={income}
                             key={4}
                         />
                     </div>

@@ -57,7 +57,7 @@ const Order : React.FC=()=>{
     useEffect(()=>{
         findAllCustomers()
         findAllProducts();
-    })
+    },[])
 
     const setTotal = ()=>{
         let amount = 0
@@ -121,7 +121,7 @@ const Order : React.FC=()=>{
                                 <option value="">select Value</option>
                                 {customers.map((customer,index)=>(
                                     <option key={index} value={customer._id}>{customer.name}</option>
-                                    ))}
+                                ))}
 
 
                             </select>
@@ -259,7 +259,7 @@ const Order : React.FC=()=>{
                                      await axios.post('http://localhost:3000/api/v1/orders/create/',{
                                         date:new Date(),
                                         customerDetails:selectedCustomer,
-                                        totalCost:180,
+                                        totalCost:19,
                                         products:cart
                                     });
                                     /*setSelectedCustomer(customer.data);
