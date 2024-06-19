@@ -71,7 +71,7 @@ const Order : React.FC=()=>{
     const getCustomerById = async (id: string)=>{
         const customer = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
         console.log(customer.data)
-        setSelectedCustomer(customer);
+        setSelectedCustomer(customer.data);
         setAddress(customer.data.address)
         setSalary(parseFloat(customer.data.salary))
     }
@@ -80,7 +80,7 @@ const Order : React.FC=()=>{
     const getProductById = async (id: string)=>{
         const product = await axios.get('http://localhost:3000/api/v1/products/find-by-id/'+id);
         console.log(product.data)
-        setselectedProduct(product)
+        setselectedProduct(product.data)
         setName(product.data.name)
         setDescription(product.data.description)
         setQtyOnHand(product.data.qtyOnHand)
@@ -149,8 +149,7 @@ const Order : React.FC=()=>{
                     </div>
                     <div className="col-12 col-sm-6 col-md-3" style={style}>
                         <div className="form-group">
-                            <label htmlFor="description">Product description</label>
-                            <input value={description} type="text" disabled className={'form-control'} id={'description'}/>
+                           <input value={description} type="text" disabled className={'form-control'} id={'description'}/>
                         </div>
 
                     </div>
@@ -178,7 +177,6 @@ const Order : React.FC=()=>{
 
                 </div>
                 <hr/>
-
                 <div className="row">
                     <div className="col-12 ">
                         <button className='btn btn-primary col-12' onClick={()=>{
@@ -213,13 +211,19 @@ const Order : React.FC=()=>{
                             <tbody>
                             {cart.map((data,index)=>(
                                 <tr key={index}>
-                                    <td>{data._id}</td>
+                                    <td>#{data._id}</td>
+
                                     <td>{data.description}</td>
                                     <td>{data.unitPrice}</td>
                                     <td>{data.qty}</td>
                                     <td>{data.total}</td>
                                     <td>
-                                        <button className={'btn btn-outline-danger bnt-sm'}>Remove</button>
+
+                                        <button
+                                            onClick={(e)=>{
+                                                setCart((prevState)=>prevState.filter((cartData)=>cartData._id!=data._id))
+                                            }}
+                                            className={'btn btn-outline-danger bnt-sm'}>Remove</button>
                                     </td>
 
                                 </tr>
@@ -237,7 +241,10 @@ const Order : React.FC=()=>{
                                 <h1>Total: 2500</h1>
                             </div>
                             <div className="place-order">
-                                <button className={'btn btn-primary'}>Place order</button>
+
+                                <button
+
+                                    className={'btn btn-primary'}>Place order</button>
                             </div>
 
                         </div>
