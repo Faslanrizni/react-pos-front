@@ -29,7 +29,7 @@ const Signup:React.FC = ()=>{
 
 
             setTimeout(() => {
-                navigate('/product');
+                navigate('/');
             }, 2000);
 
         } catch (error) {
@@ -100,7 +100,7 @@ const Signup:React.FC = ()=>{
                     </div>
                     <div className="col-12 mt-2">
                         <Link
-                            to="/signup"
+                            to="/login"
                             className="btn btn-outline-primary w-100"
                         >
                             Already have an Account

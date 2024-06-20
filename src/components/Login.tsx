@@ -13,7 +13,7 @@ const Login:React.FC = ()=>{
 
             setErrorMessage('');
 
-            navigate('/product');
+            navigate('/');
 
             /*=============== token verifire ===================*/
 

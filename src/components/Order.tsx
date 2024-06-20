@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Customer from "./Customer";
-import axios from 'axios';
+import AxiosInstance from '../config/axiosInstance';
 import Product from "./Product";
 // import customer from "./Customer";
 // import firebase from "firebase/compat";
@@ -71,18 +71,18 @@ const Order : React.FC=()=>{
     }
 
     const findAllProducts= async ()=>{
-        const response = await axios.get('http://localhost:3000/api/v1/products/find-all?searchText=&page=1&size=10');
+        const response = await AxiosInstance.get('/products/find-all?searchText=&page=1&size=10');
         setProducts(response.data);
     }
 
     const findAllCustomers= async ()=>{
-        const response = await axios.get('http://localhost:3000/api/v1/customers/find-all?searchText=&page=1&size=10');
+        const response = await AxiosInstance.get('/customers/find-all?searchText=&page=1&size=10');
         setCustomers(response.data);
         // console.log(response.data)
 
     }
     const getCustomerById = async (id: string)=>{
-        const customer = await axios.get('http://localhost:3000/api/v1/customers/find-by-id/'+id);
+        const customer = await AxiosInstance.get('/customers/find-by-id/'+id);
         setSelectedCustomer(customer.data);
         setAddress(customer.data.address)
         setSalary(parseFloat(customer.data.salary))
@@ -90,7 +90,7 @@ const Order : React.FC=()=>{
 
 
     const getProductById = async (id: string)=>{
-        const product = await axios.get('http://localhost:3000/api/v1/products/find-by-id/'+id);
+        const product = await AxiosInstance.get('/products/find-by-id/'+id);
         console.log(product.data)
         setselectedProduct(product.data)
         setName(product.data.name)
@@ -256,7 +256,7 @@ const Order : React.FC=()=>{
                             <div className="place-order">
 
                                 <button className={'btn btn-primary'} onClick={async ()=>{
-                                     await axios.post('http://localhost:3000/api/v1/orders/create/',{
+                                     await axios.post('/orders/create/',{
                                         date:new Date(),
                                         customerDetails:selectedCustomer,
                                         totalCost:19,

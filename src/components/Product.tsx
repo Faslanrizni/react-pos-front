@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import Customer from "./Customer";
 import {storage} from "../config/firebase";
-import axios from "axios";
+import AxiosInstance from '../config/axiosInstance';
 import {Modal} from "react-bootstrap";
 import PostDetailsModal from './model/ViewProductModel';
 import ViewProductModal from "./model/ViewProductModel";
@@ -44,7 +44,7 @@ const Product:React.FC=()=> {
 
 
     const viewProduct = async (id: string) => {
-        const product = await axios.get('http://localhost:3000/api/v1/products/find-by-id/' + id);
+        const product = await AxiosInstance.get('/products/find-by-id/' + id);
         setSelectedProduct(product.data);
         setDetailsModalState(true);
     };
@@ -67,7 +67,7 @@ const Product:React.FC=()=> {
         }
 
         try {
-            await axios.post("http://localhost:3000/api/v1/products/create",{
+            await AxiosInstance.post("/products/create",{
                 name,description,unitPrice,qtyOnHand,image:imageUrl
             });
 
@@ -102,7 +102,7 @@ const Product:React.FC=()=> {
         }
         try{
 
-            await axios.put('http://localhost:3000/api/v1/products/update/'+selectedProductId,{
+            await AxiosInstance.put('/products/update/'+selectedProductId,{
                 name:updateName,unitPrice:updateUnitPrice,qty:updateQtyOnHand,description:updateDescription
             });
             setModalState(false);
@@ -113,18 +113,18 @@ const Product:React.FC=()=> {
         }
     }
     const findAllProducts= async ()=>{
-        const response = await axios.get('http://localhost:3000/api/v1/products/find-all?searchText=&page=1&size=10');
+        const response = await AxiosInstance.get('/products/find-all?searchText=&page=1&size=10');
         setProducts(response.data);
     }
     const deleteProducts=async(id)=>{
-        await axios.delete("http://localhost:3000/api/v1/products/delete-by-id/"+id)
+        await AxiosInstance.delete("/products/delete-by-id/"+id)
         findAllProducts();
     }
 
 
 
     const loadModal= async (id: string)=>{
-        const product = await axios.get('http://localhost:3000/api/v1/products/find-by-id/'+id);
+        const product = await AxiosInstance.get('/products/find-by-id/'+id);
         console.log(product.data)
         setSelectedProductId(product.data._id)
         setUpdateName(product.data.name)
