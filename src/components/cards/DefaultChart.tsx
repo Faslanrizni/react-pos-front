@@ -1,43 +1,36 @@
-import {AxisOptions, Chart} from 'react-charts'
 import React from "react";
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js';
 
-type MyDatum = { date: Date, stars: number }
-function DefaultChart() {
-    const data = [
-        {
-            label: 'React Charts',
-            data: [
-                {
-                    date: new Date(),
-                    stars: 23467238,
-                },
-            ],
-        },
-    ]
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-    const primaryAxis = React.useMemo(
-        (): AxisOptions<MyDatum> => ({
-            getValue: datum => datum.date,
-        }),
-        []
-    )
-
-    const secondaryAxes = React.useMemo(
-        (): AxisOptions<MyDatum>[] => [
+const DefaultChart = () => {
+    const data = {
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        datasets: [
             {
-                getValue: datum => datum.stars,
-            },
-        ],
-        []
-    )
+                label: 'data',
+                data: [5000, 4500, 9915, 2187, 4100, 1002, 7000, 77780],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }
+        ]
+    };
+
+    const options = {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    };
+
     return (
-        <Chart
-            options={{
-                data,
-                primaryAxis,
-                secondaryAxes,
-            }}
-        />
-    )
-}
-export default DefaultChart
+        <div>
+            <Line data={data} options={options} />
+        </div>
+    );
+};
+
+export default DefaultChart;

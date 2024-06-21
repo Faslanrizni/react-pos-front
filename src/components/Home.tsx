@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import DefaultCard from "./cards/DefaultCard.tsx";
-import DefaultChart from "./cards/DefaultCard.tsx";
+import DefaultChart from "./cards/DefaultChart";
 import MinQtyCard from "./cards/MinQtyCard";
 import Product from "./Product";
 import AxiosInstance from '../config/axiosInstance';
@@ -86,6 +86,7 @@ const Home:React.FC=()=>{
                     <div className="col-12 col-md-9">
                         <div className="context">
                             <DefaultChart/>
+
                         </div>
                     </div>
                     <div className="col-12 col-md-3">
