@@ -7,6 +7,7 @@ import Product from "./components/Product.tsx";
 import Order from "./components/Order";
 import Signup from "./components/SignUp";
 import Login from "./components/Login";
+import Calculator from "./components/Calculator";
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
                 <li className="nav-item">
                   <Link className="nav-link" to={'/login'} >Login</Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={'/cala'} >Calculator</Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -48,6 +52,7 @@ function App() {
           <Route path={'/orders'} element={<Order/>} />
           <Route path={'/login'} element={<Login/>} />
           <Route path={'/signup'} element={<Signup/>} />
+          <Route path={'/calc'} element={<Calculator/>} />
         </Routes>
 
       </div>
